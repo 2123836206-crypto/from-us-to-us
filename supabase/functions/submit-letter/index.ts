@@ -74,11 +74,14 @@ Deno.serve(async (request) => {
   }
 
   // Quietly accept honeypot submissions without storing them.
-  if (text(input.website)) return reply(origin, { ok: true, message: "Thank you. Your letter was received for review." }, 201);
+  if (text(input.website)) return reply(origin, { ok: true, message: "Thank you. Your letter has been added to the archive." }, 201);
 
   const letter = text(input.letter);
   if (!letter) return reply(origin, { error: "Please write a letter before submitting." }, 400);
   if (letter.length > 12000) return reply(origin, { error: "Please keep the letter under 12,000 characters." }, 400);
+  if (input.consent_to_publish !== true) {
+    return reply(origin, { error: "Please confirm that your letter can be published in the public archive." }, 400);
+  }
 
   const suppliedTitle = text(input.title);
   if (suppliedTitle && suppliedTitle.length > 160) return reply(origin, { error: "Please keep the title under 160 characters." }, 400);
@@ -113,8 +116,8 @@ Deno.serve(async (request) => {
     cohort,
     theme,
     source: "web",
-    status: "pending",
-    consent_to_publish: input.consent_to_publish === true,
+    status: "published",
+    consent_to_publish: true,
   });
 
   if (error) {
@@ -124,7 +127,7 @@ Deno.serve(async (request) => {
 
   return reply(origin, {
     ok: true,
-    status: "pending",
-    message: "Thank you. Your letter has been received for review and will not appear in the archive automatically.",
+    status: "published",
+    message: "Thank you. Your letter is now part of the public archive.",
   }, 201);
 });
