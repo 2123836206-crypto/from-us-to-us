@@ -1,0 +1,7 @@
+project_id = "from-us-to-us"
+
+[functions.list-letters]
+verify_jwt = false
+
+[functions.submit-letter]
+verify_jwt = false

@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#112f4e">
+  <title>From Us, To Us — Letters between RCA students</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    :root { --blue:#112f4e; --blue-deep:#0e2945; --paper:#e7e5dc; --muted:#b6c1ca; --rule:rgba(231,229,220,.34); --mono:"Special Elite","Courier New",monospace; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--blue); color:var(--paper); font:16px/1.55 var(--mono); }
+    a { color:inherit; text-decoration:none; }
+    a:hover { color:#fff; }
+    button,input,textarea { font:inherit; }
+    .wrap { width:min(840px, calc(100% - 40px)); margin:0 auto; }
+    .site-header { position:sticky; top:0; z-index:5; background:var(--blue); border-bottom:1px solid var(--rule); }
+    .header-row { min-height:46px; display:flex; justify-content:space-between; align-items:center; gap:20px; }
+    .brand { display:inline-flex; align-items:center; gap:9px; font-size:.92rem; }
+    .brand-logo { display:block; width:42px; height:38px; object-fit:contain; }
+    nav { display:flex; align-items:center; gap:20px; font-size:.75rem; }
+    nav a:hover,.footer a:hover { text-decoration:underline; text-underline-offset:4px; }
+    .hero { position:relative; overflow:hidden; padding:25px 0 63px; }
+    .hero .wrap { position:relative; z-index:1; }
+    .hero-art { position:absolute; z-index:0; pointer-events:none; user-select:none; }
+    .hero-art-pigeon { width:min(35vw,330px); right:max(2%, calc((100vw - 1120px)/2)); top:100px; opacity:.15; transform:rotate(5deg); }
+    .hero-art-bird { width:min(22vw,210px); left:max(1%, calc((100vw - 1180px)/2)); bottom:0; opacity:.12; transform:rotate(-9deg); }
+    .topline { display:flex; justify-content:space-between; gap:24px; padding:0 0 12px; border-bottom:1px solid var(--rule); font-size:.68rem; letter-spacing:.13em; text-transform:uppercase; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { margin:26px 0 27px; font-size:clamp(2.75rem, 7vw, 4rem); line-height:1.03; font-weight:400; letter-spacing:-.04em; }
+    .intro { max-width:630px; margin-bottom:0; color:var(--muted); font-size:1rem; }
+    .cta-row { margin-top:25px; }
+    .cta { display:inline-flex; align-items:center; gap:14px; padding:12px 18px; border:1px solid var(--paper); font-size:.72rem; letter-spacing:.11em; text-transform:uppercase; }
+    .cta:hover { background:var(--paper); color:var(--blue); }
+    .section { padding:24px 0 46px; }
+    .section-heading { display:flex; align-items:baseline; gap:18px; margin-bottom:12px; }
+    .section-number { color:var(--muted); font-size:.7rem; }
+    h2 { margin:0; font-size:2rem; line-height:1.2; font-weight:400; }
+    .section-note { margin:0 0 14px; padding-bottom:14px; border-bottom:1px solid var(--rule); color:var(--muted); font-size:.81rem; }
+    .letter-list { border-top:1px solid var(--rule); }
+    .letter-link { display:grid; grid-template-columns:46px 1fr; gap:0; align-items:center; min-height:96px; padding:14px 0; border-bottom:1px solid var(--rule); transition:padding .15s ease,color .15s ease; }
+    .letter-link:hover { padding-left:8px; color:#fff; }
+    .letter-index { color:var(--muted); font-size:.67rem; }
+    .letter-title { max-width:700px; margin:0; font-size:1.52rem; line-height:1.16; font-weight:400; }
+    .letter-meta { margin-top:7px; color:var(--muted); font-size:.65rem; text-transform:uppercase; letter-spacing:.04em; }
+    .about { padding:45px 0 50px; border-top:1px solid var(--rule); }
+    .about p { max-width:650px; color:var(--muted); }
+    .about-lead { color:var(--paper)!important; font-size:1.12rem; }
+    .write { padding:48px 0 54px; border-top:1px solid var(--rule); }
+    .write-intro { max-width:720px; margin:11px 0 23px; color:var(--muted); font-size:.88rem; }
+    .form { display:grid; gap:15px; }
+    .field { display:grid; gap:6px; }
+    .field label { font-size:.68rem; text-transform:uppercase; letter-spacing:.09em; }
+    .field input,.field textarea { width:100%; padding:10px 0; border:0; border-bottom:1px solid var(--rule); border-radius:0; outline:none; background:transparent; color:var(--paper); font-size:.88rem; }
+    .field input::placeholder,.field textarea::placeholder { color:rgba(231,229,220,.52); }
+    .field input:focus,.field textarea:focus { border-bottom-color:var(--paper); }
+    .field textarea { min-height:145px; resize:vertical; line-height:1.6; }
+    .consent { display:flex; align-items:flex-start; gap:10px; margin:3px 0; color:var(--muted); font-size:.75rem; }
+    .consent input { flex:0 0 auto; margin:5px 0 0; accent-color:var(--paper); }
+    .notice { margin:2px 0 0; color:var(--muted); font-size:.63rem; line-height:1.65; letter-spacing:.045em; text-transform:uppercase; }
+    .submit { justify-self:start; margin-top:3px; padding:12px 17px; border:1px solid var(--paper); border-radius:0; background:transparent; color:var(--paper); cursor:pointer; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; }
+    .submit:hover { background:var(--paper); color:var(--blue); }
+    .form-message { min-height:1.2em; margin:0; color:var(--paper); font-size:.77rem; }
+    .footer { display:grid; grid-template-columns:1fr 1fr; gap:25px; padding:23px 0 19px; border-top:1px solid var(--rule); font-size:.7rem; }
+    .footer-label { margin-bottom:8px; color:var(--muted); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; }
+    .footer-links { display:grid; gap:5px; }
+    .copyright { grid-column:1/-1; margin:14px 0 0; color:var(--muted); font-size:.61rem; }
+    .detail { display:none; min-height:75vh; padding:32px 0 60px; }
+    .detail.active { display:block; }
+    .home-section.hidden { display:none; }
+    .back { display:inline-block; margin-bottom:26px; color:var(--muted); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; }
+    .detail-category { color:var(--muted); font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; }
+    .detail h1 { max-width:760px; margin:16px 0 22px; font-size:clamp(2.4rem,6vw,3.7rem); }
+    .detail-deck { max-width:650px; color:var(--paper); font-size:1.15rem; }
+    .byline { margin:28px 0; padding:15px 0; border-block:1px solid var(--rule); color:var(--muted); font-size:.67rem; text-transform:uppercase; }
+    .detail-body { max-width:650px; font-size:.94rem; }
+    .detail-body p { margin:0 0 20px; }
+    .detail-note { margin-top:40px; padding-top:12px; border-top:1px solid var(--rule); color:var(--muted); font-size:.61rem; letter-spacing:.04em; text-transform:uppercase; }
+    :focus-visible { outline:2px solid var(--paper); outline-offset:4px; }
+    @media(max-width:600px) {
+      .wrap { width:calc(100% - 40px); }
+      .header-row { min-height:46px; }
+      nav { gap:11px; font-size:.65rem; }
+      .brand { gap:6px; font-size:.77rem; }
+      .brand-logo { width:34px; height:31px; }
+      .hero-art-pigeon { width:43vw; right:-12%; top:170px; opacity:.11; }
+      .hero-art-bird { width:30vw; left:-10%; bottom:3px; opacity:.09; }
+      .hero { padding:24px 0 46px; }
+      .topline { font-size:.55rem; gap:12px; }
+      h1 { margin:24px 0; }
+      .section { padding-top:20px; }
+      .letter-link { grid-template-columns:38px 1fr; min-height:88px; }
+      .letter-title { font-size:1.25rem; }
+      .section-heading { gap:13px; }
+      h2 { font-size:1.7rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="brand" href="#top" id="brand-link"><img class="brand-logo" src="assets/from-us-to-us-logo-white.webp" alt=""><span>From Us, To Us</span></a>
+      <nav aria-label="Main navigation"><a href="#archive">Archive</a><a href="about.html">About</a><a href="#write">Write a letter</a></nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <div id="home-view">
+      <section class="hero home-section">
+        <img class="hero-art hero-art-pigeon" src="assets/pigeon-pencil-white.webp" alt="" aria-hidden="true">
+        <img class="hero-art hero-art-bird" src="assets/bird-ink-white.webp" alt="" aria-hidden="true">
+        <div class="wrap">
+          <div class="topline"><span>From past students</span><span>Royal College of Art</span></div>
+          <h1>What we wish we’d known. What we pass on.</h1>
+          <p class="intro">From Us, To Us is a growing collection of letters from past Royal College of Art students to those arriving next. A place for honest reflections, reassurance and things worth passing on.</p>
+          <div class="cta-row"><a class="cta" href="#write">Write a letter <span aria-hidden="true">→</span></a></div>
+        </div>
+      </section>
+
+      <section class="section home-section" id="archive">
+        <div class="wrap">
+          <div class="section-heading"><span class="section-number">02</span><h2>The archive</h2></div>
+          <p class="section-note" id="archive-note">Letters shared by past students. New submissions appear here only after review.</p>
+          <div class="letter-list" id="letter-list"></div>
+        </div>
+      </section>
+
+      <section class="write home-section" id="write">
+        <div class="wrap">
+          <div class="section-heading"><span class="section-number">04</span><h2>Write to someone who’s about to begin.</h2></div>
+          <p class="write-intro">What stayed with you? What helped when things felt uncertain? Share a memory, a little advice, or simply the words you needed to hear. Letters are reviewed before being added to the public archive.</p>
+          <form class="form" id="letter-form">
+            <div class="field"><label for="signature">Your name or chosen signature · optional</label><input id="signature" name="name" autocomplete="name" placeholder="Leave blank to stay anonymous"></div>
+            <div class="field"><label for="email">Email · optional · kept private</label><input id="email" name="email" type="email" autocomplete="email"></div>
+            <div class="field"><label for="programme">RCA programme and graduation year · optional</label><input id="programme" name="programme" placeholder=""></div>
+            <div class="field"><label for="title">Letter title · optional</label><input id="title" name="title" placeholder="Leave blank and we’ll use the opening line"></div>
+            <div class="field"><label for="letter">Your letter</label><textarea id="letter" name="letter" required></textarea></div>
+            <label class="consent"><input id="consent" name="consent_to_publish" type="checkbox"><span>I agree that this letter may be published in the public archive after review. Optional to submit; publication requires consent. My email will not be published.</span></label>
+            <p class="notice">Your letter will not appear automatically. Please don’t include anyone else’s private information.</p>
+            <div class="field honeypot" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+            <button class="submit" type="submit">Submit for review →</button>
+            <p class="form-message" id="form-message" aria-live="polite" role="status"></p>
+          </form>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <footer class="footer wrap">
+    <div><div class="footer-label">From Us, To Us</div><a href="#top">© 2026 From Us, To Us</a></div>
+    <div><div class="footer-label">Read</div><div class="footer-links"><a href="#archive">The archive</a><a href="about.html">About</a><a href="#write">Write a letter</a></div></div>
+    <p class="copyright">A growing archive of letters between Royal College of Art students.</p>
+  </footer>
+
+  <script src="site-config.js"></script>
+  <script src="data/letters.js"></script>
+  <script>
+    (() => {
+      const config = window.FROM_US_TO_US_CONFIG || {};
+      const seedLetters = window.FROM_US_TO_US_SEED || [];
+      const list = document.getElementById("letter-list");
+      const archiveNote = document.getElementById("archive-note");
+      const form = document.getElementById("letter-form");
+      const submitButton = form.querySelector("button[type='submit']");
+      const apiBase = `${(config.supabaseUrl || "").replace(/\/$/, "")}/functions/v1`;
+      const isConnected = Boolean(config.supabaseUrl && config.publishableKey);
+
+      function titleFor(letter) {
+        if (letter.title) return letter.title;
+        const opening = (letter.letter || "").split(/(?<=[.!?])\s+/)[0].trim();
+        return opening.length > 85 ? `${opening.slice(0, 82).trimEnd()}…` : opening;
+      }
+
+      function renderLetters(letters) {
+        list.replaceChildren();
+        letters.forEach((letter, index) => {
+        const link = document.createElement("a");
+        link.className = "letter-link";
+          link.href = `letters/index.html?letter=${encodeURIComponent(letter.id)}`;
+          const number = document.createElement("span");
+          number.className = "letter-index";
+          number.textContent = String(index + 1).padStart(2, "0");
+          const content = document.createElement("span");
+          const heading = document.createElement("span");
+          heading.className = "letter-title";
+          heading.textContent = titleFor(letter);
+          const meta = document.createElement("span");
+          meta.className = "letter-meta";
+          const byline = letter.name || "Anonymous";
+          const details = [letter.theme, byline, letter.programme].filter(Boolean);
+          meta.textContent = details.join(" · ");
+          content.append(heading, meta);
+          link.append(number, content);
+        list.append(link);
+      });
+      }
+
+      async function loadLetters() {
+        if (!isConnected) {
+          renderLetters(seedLetters);
+          archiveNote.textContent = "Showing the collected letters. Connect Supabase to make submissions and review status live.";
+          return;
+        }
+        try {
+          const response = await fetch(`${apiBase}/list-letters`, {
+            headers: { apikey: config.publishableKey, Authorization: `Bearer ${config.publishableKey}` },
+          });
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.error || "The archive could not be loaded.");
+          renderLetters(result.letters || []);
+        } catch (error) {
+          archiveNote.textContent = "The live archive could not be reached. Showing the collected letters while the connection is checked.";
+          renderLetters(seedLetters);
+          console.error(error);
+        }
+      }
+      loadLetters();
+
+      form.addEventListener("submit", async event => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        const message = document.getElementById("form-message");
+        if (!isConnected) {
+          message.textContent = "The submission service is not connected yet. Your letter has not been sent or saved.";
+          return;
+        }
+        submitButton.disabled = true;
+        message.textContent = "Sending your letter for review…";
+        const data = Object.fromEntries(new FormData(form).entries());
+        data.consent_to_publish = form.elements.consent_to_publish.checked;
+        try {
+          const response = await fetch(`${apiBase}/submit-letter`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              apikey: config.publishableKey,
+              Authorization: `Bearer ${config.publishableKey}`,
+            },
+            body: JSON.stringify(data),
+          });
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.error || "The letter could not be submitted.");
+          form.reset();
+          message.textContent = result.message;
+        } catch (error) {
+          message.textContent = error.message || "The letter could not be submitted. Please try again later.";
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
+      document.getElementById("brand-link").addEventListener("click", () => { if (location.hash === "#top") window.scrollTo(0, 0); });
+    })();
+  </script>
+</body>
+</html>

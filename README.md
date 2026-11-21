@@ -2,4 +2,4 @@
 
 A growing archive of letters between Royal College of Art students.
 
-This repository publishes the static preview through GitHub Pages. The current submission form is not connected to a live database yet.
+The static site is published to GitHub Pages through the workflow in `.github/workflows/pages.yml`. The included collected letters are visible in the archive. New submissions are not saved until the Supabase backend is configured; setup steps are in `SETUP.md`.

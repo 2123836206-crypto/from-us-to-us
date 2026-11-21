@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Letter — From Us, To Us</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    :root{--blue:#112f4e;--paper:#e7e5dc;--muted:#b6c1ca;--rule:rgba(231,229,220,.34);--mono:"Special Elite","Courier New",monospace}*{box-sizing:border-box}body{margin:0;background:var(--blue);color:var(--paper);font:16px/1.55 var(--mono)}a{color:inherit;text-decoration:none}a:hover{color:#fff}header{position:sticky;top:0;background:var(--blue);border-bottom:1px solid var(--rule)}.wrap{width:min(840px,calc(100% - 40px));margin:auto}.head{min-height:46px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:inline-flex;align-items:center;gap:9px;font-size:.92rem}.brand-logo{display:block;width:42px;height:38px;object-fit:contain}nav{display:flex;gap:20px;font-size:.75rem}main{min-height:78vh;padding:32px 0 64px}.back{display:inline-block;margin:0 0 27px;color:var(--muted);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}.category{color:var(--muted);font-size:.67rem;letter-spacing:.12em;text-transform:uppercase}h1{max-width:760px;margin:17px 0 20px;font-size:clamp(2.5rem,6.5vw,3.8rem);line-height:1.05;font-weight:400;letter-spacing:-.04em}.deck{max-width:650px;font-size:1.08rem}.byline{margin:27px 0;padding:14px 0;border-block:1px solid var(--rule);color:var(--muted);font-size:.67rem;text-transform:uppercase}.body{max-width:650px;font-size:.92rem}.body p{margin:0 0 20px}.notice{margin-top:38px;padding-top:12px;border-top:1px solid var(--rule);color:var(--muted);font-size:.61rem;letter-spacing:.04em;text-transform:uppercase}.next{display:block;margin-top:38px;padding:18px 0;border-top:1px solid var(--rule);font-size:1.1rem}.next small{display:block;margin-bottom:5px;color:var(--muted);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}.footer{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:22px 0 20px;border-top:1px solid var(--rule);font-size:.7rem}.label{margin-bottom:8px;color:var(--muted);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase}.links{display:grid;gap:5px}.copyline{grid-column:1/-1;margin:10px 0 0;color:var(--muted);font-size:.61rem}@media(max-width:600px){.wrap{width:calc(100% - 40px)}.head{min-height:46px}nav{gap:11px;font-size:.65rem}.brand{gap:6px;font-size:.77rem}.brand-logo{width:34px;height:31px}h1{font-size:clamp(2.3rem,11vw,3.4rem)}}
+  </style>
+</head>
+<body>
+  <header><div class="wrap head"><a class="brand" href="../index.html"><img class="brand-logo" src="../assets/from-us-to-us-logo-white.webp" alt=""><span>From Us, To Us</span></a><nav><a href="../index.html#archive">Archive</a><a href="../about.html">About</a><a href="../index.html#write">Write a letter</a></nav></div></header>
+  <main class="wrap">
+    <a class="back" href="../index.html#archive">← All letters</a>
+    <div class="category" id="category"></div><h1 id="title"></h1><p class="deck" id="deck"></p>
+    <div class="byline" id="byline"></div><div class="body" id="body"></div>
+    <p class="notice" id="notice"></p><a class="next" id="next" href="#"><small>Next letter →</small><span></span></a>
+  </main>
+  <footer class="wrap footer"><div><div class="label">From Us, To Us</div><a href="../index.html">© 2026 From Us, To Us</a></div><div><div class="label">Read</div><div class="links"><a href="../index.html#archive">The archive</a><a href="../about.html">About</a><a href="../index.html#write">Write a letter</a></div></div><p class="copyline">A growing archive of letters between Royal College of Art students.</p></footer>
+  <script src="../site-config.js"></script>
+  <script src="../data/letters.js"></script>
+  <script>
+    (async () => {
+      const config = window.FROM_US_TO_US_CONFIG || {};
+      const seed = window.FROM_US_TO_US_SEED || [];
+      const id = new URLSearchParams(location.search).get("letter");
+      const base = `${(config.supabaseUrl || "").replace(/\/$/, "")}/functions/v1`;
+      const titleFor = item => item.title || (item.letter || "").split(/(?<=[.!?])\s+/)[0].slice(0, 85).trim();
+      let letters = seed;
+      if (config.supabaseUrl && config.publishableKey) {
+        try {
+          const response = await fetch(`${base}/list-letters`, { headers: { apikey: config.publishableKey, Authorization: `Bearer ${config.publishableKey}` } });
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.error || "Could not load the archive.");
+          letters = result.letters || [];
+        } catch (error) {
+          document.getElementById("notice").textContent = "The live archive could not be reached. Showing the collected copy if this letter is in it.";
+        }
+      } else {
+        document.getElementById("notice").textContent = "This page is showing the collected copy. Connect Supabase for live archive data.";
+      }
+      const index = letters.findIndex(item => item.id === id);
+      const letter = letters[index];
+      if (!letter) {
+        document.getElementById("title").textContent = "This letter is not available.";
+        document.getElementById("deck").textContent = "It may be pending review or no longer published.";
+        document.getElementById("category").textContent = "From Us, To Us";
+        document.getElementById("byline").textContent = "";
+        document.getElementById("notice").textContent = "Only published letters appear in the public archive.";
+        document.getElementById("next").hidden = true;
+        return;
+      }
+      document.title = `${titleFor(letter)} — From Us, To Us`;
+      document.getElementById("category").textContent = [letter.theme, letter.cohort, "From the archive"].filter(Boolean).join(" · ");
+      document.getElementById("title").textContent = titleFor(letter);
+      document.getElementById("deck").textContent = "A letter from a student who has been here before.";
+      document.getElementById("byline").textContent = `Written by · ${letter.name || "Anonymous"}${letter.programme ? ` · ${letter.programme}` : ""}`;
+      const paragraph = document.createElement("p");
+      paragraph.textContent = letter.letter;
+      document.getElementById("body").replaceChildren(paragraph);
+      if (letter.source === "collected") document.getElementById("notice").textContent = "Shared in the collected student letters.";
+      const next = letters[(index + 1) % letters.length];
+      const nextLink = document.getElementById("next");
+      nextLink.href = `?letter=${encodeURIComponent(next.id)}`;
+      nextLink.querySelector("span").textContent = titleFor(next);
+    })();
+  </script>
+</body>
+</html>
