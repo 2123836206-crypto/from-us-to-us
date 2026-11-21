@@ -123,7 +123,7 @@
       <section class="section home-section" id="archive">
         <div class="wrap">
           <div class="section-heading"><span class="section-number">02</span><h2>The archive</h2></div>
-          <p class="section-note" id="archive-note">Letters shared by past students. New submissions appear here only after review.</p>
+          <p class="section-note" id="archive-note">Letters shared by past students. New letters join the archive as soon as they are submitted.</p>
           <div class="letter-list" id="letter-list"></div>
         </div>
       </section>
@@ -131,17 +131,17 @@
       <section class="write home-section" id="write">
         <div class="wrap">
           <div class="section-heading"><span class="section-number">04</span><h2>Write to someone who’s about to begin.</h2></div>
-          <p class="write-intro">What stayed with you? What helped when things felt uncertain? Share a memory, a little advice, or simply the words you needed to hear. Letters are reviewed before being added to the public archive.</p>
+          <p class="write-intro">What stayed with you? What helped when things felt uncertain? Share a memory, a little advice, or simply the words you needed to hear. Your letter will appear in the public archive as soon as you submit it.</p>
           <form class="form" id="letter-form">
             <div class="field"><label for="signature">Your name or chosen signature · optional</label><input id="signature" name="name" autocomplete="name" placeholder="Leave blank to stay anonymous"></div>
             <div class="field"><label for="email">Email · optional · kept private</label><input id="email" name="email" type="email" autocomplete="email"></div>
             <div class="field"><label for="programme">RCA programme and graduation year · optional</label><input id="programme" name="programme" placeholder=""></div>
             <div class="field"><label for="title">Letter title · optional</label><input id="title" name="title" placeholder="Leave blank and we’ll use the opening line"></div>
             <div class="field"><label for="letter">Your letter</label><textarea id="letter" name="letter" required></textarea></div>
-            <label class="consent"><input id="consent" name="consent_to_publish" type="checkbox"><span>I agree that this letter may be published in the public archive after review. Optional to submit; publication requires consent. My email will not be published.</span></label>
-            <p class="notice">Your letter will not appear automatically. Please don’t include anyone else’s private information.</p>
+            <label class="consent"><input id="consent" name="consent_to_publish" type="checkbox" required><span>I agree to publish this letter in the public archive as soon as I submit it. My email will not be published.</span></label>
+            <p class="notice">Your letter will appear publicly right away. Please don’t include anyone else’s private information.</p>
             <div class="field honeypot" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
-            <button class="submit" type="submit">Submit for review →</button>
+            <button class="submit" type="submit">Add to the archive →</button>
             <p class="form-message" id="form-message" aria-live="polite" role="status"></p>
           </form>
         </div>
@@ -202,7 +202,7 @@
       async function loadLetters() {
         if (!isConnected) {
           renderLetters(seedLetters);
-          archiveNote.textContent = "Showing the collected letters. Connect Supabase to make submissions and review status live.";
+          archiveNote.textContent = "Showing the collected letters. Connect Supabase to make submissions and the live archive available.";
           return;
         }
         try {
@@ -229,7 +229,7 @@
           return;
         }
         submitButton.disabled = true;
-        message.textContent = "Sending your letter for review…";
+        message.textContent = "Adding your letter to the archive…";
         const data = Object.fromEntries(new FormData(form).entries());
         data.consent_to_publish = form.elements.consent_to_publish.checked;
         try {
@@ -245,6 +245,7 @@
           if (!response.ok) throw new Error(result.error || "The letter could not be submitted.");
           form.reset();
           message.textContent = result.message;
+          await loadLetters();
         } catch (error) {
           message.textContent = error.message || "The letter could not be submitted. Please try again later.";
         } finally {
