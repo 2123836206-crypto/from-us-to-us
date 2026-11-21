@@ -207,7 +207,7 @@
         }
         try {
           const response = await fetch(`${apiBase}/list-letters`, {
-            headers: { apikey: config.publishableKey, Authorization: `Bearer ${config.publishableKey}` },
+            headers: { apikey: config.publishableKey },
           });
           const result = await response.json();
           if (!response.ok) throw new Error(result.error || "The archive could not be loaded.");
@@ -238,7 +238,6 @@
             headers: {
               "Content-Type": "application/json",
               apikey: config.publishableKey,
-              Authorization: `Bearer ${config.publishableKey}`,
             },
             body: JSON.stringify(data),
           });

@@ -1,6 +1,6 @@
 # From Us, To Us
 
-This is a static website with a Supabase database backend. It keeps the current Framer-style layout and simple navigation, archive list, letter detail pages, and one submission form. It is not connected to a live Supabase project until you complete the setup below.
+This is a static website with a Supabase database backend. The production site is connected to the Supabase project created for From Us, To Us. The steps below document how to recreate or maintain the setup.
 
 ## What works in the site code
 
@@ -32,12 +32,9 @@ npx supabase functions deploy list-letters
 npx supabase functions deploy submit-letter
 ```
 
-Set the function secrets in the Supabase Dashboard under **Edge Functions → Secrets**:
+The functions read the Supabase project URL and secret key from Supabase's server-side environment. They prefer the default key in `SUPABASE_SECRET_KEYS`, with a legacy-key fallback. These values stay on the server and must never be added to this repository. The production GitHub Pages origin is allowed by default; set `ALLOWED_ORIGINS` only if you need to override it.
 
-- `DATABASE_API_KEY`: the Supabase secret key for this project
-- `ALLOWED_ORIGINS`: your published website origin, for example `https://your-site.example`; include `http://localhost:8000` while developing locally
-
-The code uses Supabase Edge Functions so the database secret stays on the server. The functions have public entry points because visitors can submit without creating an account; they validate inputs, restrict browser origins, use a honeypot field, and write new rows as pending.
+The functions have public entry points because visitors can submit without creating an account. They validate inputs, restrict browser origins, use a honeypot field, and write new rows as pending.
 
 ## Connect the website
 
@@ -50,7 +47,7 @@ window.FROM_US_TO_US_CONFIG = {
 };
 ```
 
-The publishable key is intended for browser use. Never put the secret key here. The site falls back to the included collected letters when the Supabase settings are blank, and it clearly reports that submissions are not connected.
+The publishable key is intended for browser use. Never put the secret key here. The site falls back to the included collected letters if the Supabase connection is unavailable.
 
 Serve this folder from a local web server while developing; browser `file://` pages cannot reliably call the Supabase API. For example:
 
@@ -58,7 +55,7 @@ Serve this folder from a local web server while developing; browser `file://` pa
 python3 -m http.server 8000
 ```
 
-Then open `http://localhost:8000`. For public use, host the folder on a static web host and add that exact HTTPS origin to `ALLOWED_ORIGINS`.
+Then open `http://localhost:8000`. For public use, host the folder on a static web host and add that exact HTTPS origin to `ALLOWED_ORIGINS` if you override the default.
 
 ## Review submissions
 

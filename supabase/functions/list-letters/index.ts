@@ -1,9 +1,27 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-const allowedOrigins = (Deno.env.get("ALLOWED_ORIGINS") ?? "")
+const DEFAULT_ALLOWED_ORIGINS = [
+  "https://2123836206-crypto.github.io",
+  "http://localhost:8000",
+  "http://127.0.0.1:8000",
+];
+const allowedOrigins = (Deno.env.get("ALLOWED_ORIGINS") || DEFAULT_ALLOWED_ORIGINS.join(","))
   .split(",")
   .map((value) => value.trim())
   .filter(Boolean);
+
+function databaseKey(): string | undefined {
+  const secretKeys = Deno.env.get("SUPABASE_SECRET_KEYS");
+  if (secretKeys) {
+    try {
+      const parsed = JSON.parse(secretKeys);
+      if (typeof parsed.default === "string") return parsed.default;
+    } catch {
+      // Fall through to the legacy environment variables during key migration.
+    }
+  }
+  return Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? Deno.env.get("DATABASE_API_KEY");
+}
 
 function headersFor(origin: string) {
   return {
@@ -32,7 +50,7 @@ Deno.serve(async (request) => {
   }
 
   const url = Deno.env.get("SUPABASE_URL");
-  const serviceKey = Deno.env.get("DATABASE_API_KEY");
+  const serviceKey = databaseKey();
   if (!url || !serviceKey) {
     return new Response(JSON.stringify({ error: "The archive database is not configured yet." }), { status: 503, headers });
   }

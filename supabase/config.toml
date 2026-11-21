@@ -1,4 +1,4 @@
-project_id = "from-us-to-us"
+project_id = "hkrceowbzamhjofzppcb"
 
 [functions.list-letters]
 verify_jwt = false

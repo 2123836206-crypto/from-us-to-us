@@ -1,6 +1,5 @@
-// Add the public Supabase project URL and publishable key here after setup.
-// Never put a Supabase secret or service-role key in this file.
+// Publishable key: intended for browser use. Never add a Supabase secret key here.
 window.FROM_US_TO_US_CONFIG = {
-  supabaseUrl: "",
-  publishableKey: "",
+  supabaseUrl: "https://hkrceowbzamhjofzppcb.supabase.co",
+  publishableKey: "sb_publishable_Jdja9HNgYIoEQCzVWYAudQ_IOZIVzPl",
 };
