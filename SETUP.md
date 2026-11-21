@@ -7,11 +7,11 @@ This is a static website with a Supabase database backend. The production site i
 - The 27 collected entries are in `data/letters.json` and `supabase/seed.sql`.
 - Missing programmes in the collected data are stored as `Unknown`; unknown cohort years are left blank.
 - Existing letters are seeded as published, as requested. Their titles are editorial labels because the source document did not include titles.
-- A new submission only requires the letter text. Name, title, email, programme, cohort, theme, and publication consent are optional.
+- A new submission only requires the letter text. Name, title, email, programme, cohort, and theme are optional. Publication consent is required because the letter appears in the public archive immediately.
 - If a new submission has no title, the server uses the opening sentence as its display title.
-- New submissions are always saved as `pending`. They do not appear in the public archive until reviewed.
+- New submissions are saved as `published` immediately after the writer confirms publication consent.
 - The public list endpoint returns published letter fields only. It never returns private email addresses.
-- If someone submits without publication consent, an administrator must obtain consent before publishing. The database enforces this.
+- The database prevents publication without consent.
 
 ## Set up the database
 
@@ -34,7 +34,7 @@ npx supabase functions deploy submit-letter
 
 The functions read the Supabase project URL and secret key from Supabase's server-side environment. They prefer the default key in `SUPABASE_SECRET_KEYS`, with a legacy-key fallback. These values stay on the server and must never be added to this repository. The production GitHub Pages origin is allowed by default; set `ALLOWED_ORIGINS` only if you need to override it.
 
-The functions have public entry points because visitors can submit without creating an account. They validate inputs, restrict browser origins, use a honeypot field, and write new rows as pending.
+The functions have public entry points because visitors can submit without creating an account. They validate inputs, restrict browser origins, use a honeypot field, and publish new rows immediately after consent.
 
 ## Connect the website
 
@@ -57,15 +57,14 @@ python3 -m http.server 8000
 
 Then open `http://localhost:8000`. For public use, host the folder on a static web host and add that exact HTTPS origin to `ALLOWED_ORIGINS` if you override the default.
 
-## Review submissions
+## Manage public letters
 
-Use the Supabase Dashboard **Table Editor → letters** as the initial moderation queue:
+Use the Supabase Dashboard **Table Editor → letters** to manage public letters:
 
-1. Filter `status` to `pending`.
-2. Review the letter and any optional contact details.
-3. Set `status` to `published` only when publication consent is true. Otherwise, leave it pending or set it to `rejected`.
+1. Filter `status` to `published` to view public letters.
+2. To remove a letter from the public archive, change `status` to `rejected`.
 
-The public website reads only published letters. Email is not included in public responses. The database blocks an administrator from publishing a row whose `consent_to_publish` value is false.
+The public website reads only published letters. Email is not included in public responses. The database blocks publishing a row whose `consent_to_publish` value is false.
 
 ## Before inviting the public
 
